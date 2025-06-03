@@ -23,16 +23,12 @@ const getMoviesAPI = async (filter) => {
     const response = await fetch(`https://api.themoviedb.org/3/tv/${filter}?api_key=6631e5f1dc96088e0d26b86da29b5b6a`);
     const data = await response.json();
     return data;
-    // clearWrapper();
-    // data.results.forEach(serie => {
-    //   wrapper.insertAdjacentHTML('beforeend', createSerieElement(serie));
-    // });
   } catch (error) {
     console.error('Erreur lors du chargement des séries :', error);
   }
 };
 
-async function displayMovies(category) {
+async function displayMovies(category = `top_rated`) {
     moviesWrapper.innerHTML =``;
     const datas = await getMoviesAPI(category);
     datas.results.forEach(result => {
@@ -42,7 +38,7 @@ async function displayMovies(category) {
                 <div class="tv-show__img">
                     <img src="https://image.tmdb.org/t/p/w500/${result.poster_path}">
                     <div class="note">
-                        ${result.vote_average}
+                        ${(result.vote_average*10).toFixed(0)} %
                     </div>
                 </div>
             </div>
